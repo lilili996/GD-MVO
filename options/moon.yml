@@ -1,0 +1,101 @@
+# ----------------------------------------------------------------------------
+# Basic setup
+# ----------------------------------------------------------------------------
+dataset: moon
+seed: 4869
+image:
+  height: 720
+  width: 1280
+seq: "22"
+result_dir: result
+
+# ----------------------------------------------------------------------------
+# tracking options
+# ----------------------------------------------------------------------------
+feature_tracking_method: 1
+  # 1: deep optical flow
+
+tracking_method: 3 
+  # 3: hybrid
+
+compute_2d2d_pose:
+  ransac:
+    reproj_thre: 0.2
+    repeat: 5
+  min_flow: 10
+
+PnP:
+  ransac:
+    iter: 100
+    reproj_thre: 1
+    repeat: 5
+
+# translation scale
+translation_scale:
+  ransac:
+    min_samples: 3
+    max_trials: 100
+    stop_prob: 0.99
+    thre: 0.1
+
+# ----------------------------------------------------------------------------
+# Deep single-view depth
+# ----------------------------------------------------------------------------
+depth:
+  depth_src:  # (blank: deep model inference; 0: GT depth)
+  max_depth: 50  # before 50
+  min_depth: 0   #before 0
+  num_kp: 1500   #before 1000
+  pretrained_model: model_zoo/depth/kitti_odom/stereo/
+
+# ----------------------------------------------------------------------------
+# Deep Optical Flow
+# ----------------------------------------------------------------------------
+deep_flow:
+  forward_backward: True
+  num_kp: 2000
+  network: liteflow  
+    # liteflow: LiteFlowNet
+  flow_net_weight: model_zoo/optical_flow/LiteFlowNet/network-default.pytorch
+  batch_size: 1
+  precomputed_flow: 
+
+crop:
+  depth_crop: [[0.3, 0.95], [0, 1]]
+  flow_crop: [[0, 1], [0, 1]]
+
+# ----------------------------------------------------------------------------
+# Visualization
+# ----------------------------------------------------------------------------
+visualization:
+  window_h: 1000
+  window_w: 1800
+  save_img: False
+  flow: 
+    vis_full_flow: True
+    vis_back_flow: True
+    vis_flow_diff: True
+  match:
+    kp_num: 50  # -1 for using all
+    vis_type: 2
+      # None: None
+      # 0: draw_match_2_side
+      # 1: draw_match_temporal
+      # 2: both
+  trajectory:
+    vis_traj: True
+    draw_scale: 1
+    mono_scale: 1 #5.4; 0.2
+    vis_gt_traj: True
+  depth:
+    use_tracking_depth: False
+    vis_full_depth: False
+    vis_full_disp: True
+
+# ----------------------------------------------------------------------------
+# Directories
+# ----------------------------------------------------------------------------
+directory:
+  gt_pose_dir: dataset/kitti_odom/gt_poses/
+  img_seq_dir: dataset/kitti_odom/odom_data/
+  depth_dir: dataset/kitti_odom/depth/

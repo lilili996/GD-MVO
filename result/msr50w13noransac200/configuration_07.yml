@@ -1,0 +1,34 @@
+# -------------------- Setup --------------------------------------------------------------------------|---------- Default --------------------
+dataset: kitti                                                                                       # | 
+seed: 4869                                                                                           # | 
+seq: 07                                                                                              # | 
+result_dir: result/msr50w13noransac200                                                               # | 
+compute_2d2d_pose:                                                                                   # |
+  ransac:                                                                                            # |
+    reproj_thre: 0.2                                                                                 # | 
+    repeat: 5                                                                                        # | 
+  min_flow: 10                                                                                       # | 
+PnP:                                                                                                 # |
+  ransac:                                                                                            # |
+    iter: 100                                                                                        # | 
+    reproj_thre: 1                                                                                   # | 
+    repeat: 5                                                                                        # | 
+translation_scale:                                                                                   # |
+  ransac:                                                                                            # |
+    min_samples: 3                                                                                   # | 
+    max_trials: 100                                                                                  # | 
+    stop_prob: 0.99                                                                                  # | 
+    thre: 0.1                                                                                        # | 
+depth:                                                                                               # |
+  depth_src:                                                                                         # | 
+  max_depth: 50                                                                                      # | 
+  min_depth: 0                                                                                       # | 
+  num_kp: 1000                                                                                       # | 
+  pretrained_model: model_zoo/depth/kitti_odom/msR50w13/                                             # | 
+crop:                                                                                                # |
+  depth_crop: [[0.3, 0.95], [0, 1]]                                                                  # | 
+  flow_crop: [[0, 1], [0, 1]]                                                                        # | 
+directory:                                                                                           # |
+  gt_pose_dir: dataset/kitti_odom/gt_poses/                                                          # | 
+  img_seq_dir: dataset/kitti_odom/odom_data/                                                         # | 
+  depth_dir: dataset/kitti_odom/depth/                                                               # | 
